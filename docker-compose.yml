@@ -1,6 +1,6 @@
 services:
   octoapp-companion:
-    image: nilava/octoapp-companion:latest
+    image: ghcr.io/nilava/octoapp-plugin:latest
     # For local development, uncomment the following line and comment the image line above:
     # build: .
     container_name: octoapp-companion

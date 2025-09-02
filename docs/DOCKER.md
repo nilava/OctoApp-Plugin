@@ -26,7 +26,7 @@ This guide covers running OctoApp Companion as a Docker container to connect you
 ```yaml
 services:
   octoapp-companion:
-    image: nilava/octoapp-companion:latest
+    image: ghcr.io/nilava/octoapp-plugin:latest
     container_name: octoapp-companion
     restart: unless-stopped
     environment:
@@ -72,7 +72,7 @@ docker run -d \
   -v octoapp-data:/app/data \
   -v octoapp-config:/app/config \
   -v octoapp-logs:/app/logs \
-  nilava/octoapp-companion:latest
+  ghcr.io/nilava/octoapp-plugin:latest
 ```
 
 ## Configuration

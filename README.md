@@ -28,7 +28,7 @@ For users who want to run OctoApp Companion in a container to connect to a remot
 cat > docker-compose.yml << EOF
 services:
   octoapp-companion:
-    image: nilava/octoapp-companion:latest
+    image: ghcr.io/nilava/octoapp-plugin:latest
     container_name: octoapp-companion
     restart: unless-stopped
     environment:
@@ -57,7 +57,7 @@ docker run -d \
   -v octoapp-data:/app/data \
   -v octoapp-config:/app/config \
   -v octoapp-logs:/app/logs \
-  nilava/octoapp-companion:latest
+  ghcr.io/nilava/octoapp-plugin:latest
 ```
 
 **Replace `192.168.1.100:7125` with your actual Moonraker IP address and port.**
