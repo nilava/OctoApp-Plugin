@@ -11,3 +11,6 @@ py2venv/*
 py3venv/*
 venv
 octoprint-data
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md

@@ -19,8 +19,12 @@ Get OctoApp on Google Play and the App Store!
 ### Option 1: Traditional Installation
 Please follow the instructions in the [Wiki](https://github.com/crysxd/OctoApp-Plugin/wiki)!
 
-### Option 2: Docker (Companion Mode)
-For users who want to run OctoApp Companion in a container to connect to a remote Moonraker instance:
+### Option 2: Docker (Klipper Companion Mode ONLY)
+**For OctoApp Klipper Companion ONLY** - connects to a **Klipper/Moonraker** instance running on a **different device** on your network.
+
+⚠️ **IMPORTANT**: This Docker image is ONLY for **Klipper Companion mode**. 
+- ✅ **Use Docker**: When connecting to remote **Klipper/Moonraker** device
+- ❌ **Use install.sh**: For OctoPrint, direct Klipper installation, or any non-companion setup
 
 #### Quick Start with Docker Compose
 ```bash
@@ -28,11 +32,11 @@ For users who want to run OctoApp Companion in a container to connect to a remot
 cat > docker-compose.yml << EOF
 services:
   octoapp-companion:
-    image: ghcr.io/nilava/octoapp-plugin:latest
+    image: ghcr.io/nilava/octoapp-companion:latest
     container_name: octoapp-companion
     restart: unless-stopped
     environment:
-      - MOONRAKER_URL=http://192.168.1.100:7125  # Replace with your Moonraker IP
+      - MOONRAKER_URL=http://192.168.1.100:7125  # Replace with your REMOTE Moonraker IP
     volumes:
       - octoapp-data:/app/data
       - octoapp-config:/app/config  
@@ -57,10 +61,23 @@ docker run -d \
   -v octoapp-data:/app/data \
   -v octoapp-config:/app/config \
   -v octoapp-logs:/app/logs \
-  ghcr.io/nilava/octoapp-plugin:latest
+  ghcr.io/nilava/octoapp-companion:latest
 ```
 
-**Replace `192.168.1.100:7125` with your actual Moonraker IP address and port.**
+**Replace `192.168.1.100:7125` with your actual REMOTE Moonraker IP address and port.**
+
+### When to Use Docker vs Traditional Installation:
+
+| Method | Use Case | Printer Type | Scenario |
+|--------|----------|--------------|----------|
+| **Traditional Installation** | Direct plugin installation | **OctoPrint or Klipper** | Install directly on printer device |
+| **Docker Klipper Companion** | Remote monitoring | **Klipper ONLY** | Separate device connects to remote Klipper |
+
+**Example Docker Setup (Klipper Companion):**
+- **Device A** (Raspberry Pi): Running **Klipper + Moonraker + Mainsail**
+- **Device B** (Home server/NAS): Running **OctoApp Klipper Companion** via Docker → connects to Device A
+
+**For OctoPrint users**: Always use traditional installation, never Docker.
 
 The Docker image supports:
 - **Multi-architecture**: `amd64`, `arm64`, `arm/v7` (Raspberry Pi compatible)  

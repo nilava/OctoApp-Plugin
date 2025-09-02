@@ -1,10 +1,25 @@
 # OctoApp Companion Docker Setup Guide
 
-This guide covers running OctoApp Companion as a Docker container to connect your Klipper/Moonraker printer to the OctoApp mobile app for remote monitoring.
+This guide covers running **OctoApp Klipper Companion ONLY** as a Docker container to connect to a **remote** Klipper/Moonraker printer for monitoring via the OctoApp mobile app.
+
+## ⚠️ CRITICAL: Klipper Companion Mode ONLY
+
+**This Docker image is ONLY for KLIPPER Companion mode** - use when:
+- Your **Klipper + Moonraker runs on Device A** (e.g., Raspberry Pi with Klipper)  
+- You want **OctoApp Klipper Companion on Device B** (e.g., NAS, home server)
+- Both devices are on the **same local network**
+
+**❌ DO NOT USE for:**
+- **OctoPrint** setups (use traditional installation)
+- **Same-device** installation (use `install.sh`)
+- **Non-Klipper** printers
+
+**✅ ONLY USE for:**
+- **Remote monitoring of Klipper/Moonraker** from separate device
 
 ## Overview
 
-**OctoApp Companion** is a background service that connects to your local Moonraker instance and relays printer status, notifications, and telemetry to OctoApp's cloud service. This enables remote monitoring through the mobile app without exposing your printer directly to the internet.
+**OctoApp Companion** is a background service that connects to a **remote** Moonraker instance and relays printer status, notifications, and telemetry to OctoApp's cloud service. This enables remote monitoring through the mobile app without exposing your printer directly to the internet.
 
 ### Key Features
 - 🔒 **Secure**: No inbound ports needed, outbound-only connections
@@ -26,7 +41,7 @@ This guide covers running OctoApp Companion as a Docker container to connect you
 ```yaml
 services:
   octoapp-companion:
-    image: ghcr.io/nilava/octoapp-plugin:latest
+    image: ghcr.io/nilava/octoapp-companion:latest
     container_name: octoapp-companion
     restart: unless-stopped
     environment:
@@ -72,7 +87,7 @@ docker run -d \
   -v octoapp-data:/app/data \
   -v octoapp-config:/app/config \
   -v octoapp-logs:/app/logs \
-  ghcr.io/nilava/octoapp-plugin:latest
+  ghcr.io/nilava/octoapp-companion:latest
 ```
 
 ## Configuration

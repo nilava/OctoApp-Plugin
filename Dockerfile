@@ -95,9 +95,9 @@ exec python3 -B -m moonraker_octoapp "$CONFIG_B64"\n' > /app/start.sh && \
 chmod +x /app/start.sh
 
 # Add labels for better maintainability
-LABEL org.opencontainers.image.title="OctoApp Companion" \
-      org.opencontainers.image.description="Connect your Klipper/Moonraker printer to OctoApp for remote monitoring" \
-      org.opencontainers.image.source="https://github.com/crysxd/OctoApp-Plugin" \
+LABEL org.opencontainers.image.title="OctoApp Klipper Companion" \
+      org.opencontainers.image.description="OctoApp Companion for remote Klipper/Moonraker monitoring ONLY. Not for OctoPrint or direct installation." \
+      org.opencontainers.image.source="https://github.com/nilava/OctoApp-Plugin" \
       org.opencontainers.image.vendor="OctoApp" \
       org.opencontainers.image.licenses="AGPL-3.0"
 
