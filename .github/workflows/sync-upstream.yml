@@ -1,0 +1,48 @@
+name: Sync Upstream
+
+on:
+  schedule:
+    # Check for upstream changes every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    if: github.event.repository.fork == true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Sync upstream changes
+        id: sync
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Add upstream remote
+          git remote add upstream https://github.com/crysxd/OctoApp-Plugin.git
+          git fetch upstream
+          
+          # Check if there are changes
+          BEHIND=$(git rev-list HEAD..upstream/release --count)
+          echo "behind=$BEHIND" >> $GITHUB_OUTPUT
+          
+          if [ "$BEHIND" -gt 0 ]; then
+            echo "Syncing $BEHIND commits from upstream"
+            git checkout release
+            git merge upstream/release --no-edit
+            git push origin release
+          else
+            echo "Already up to date"
+          fi
+
+      - name: Trigger Docker build
+        if: steps.sync.outputs.behind > 0
+        run: |
+          echo "Changes synced, Docker workflow will trigger automatically"

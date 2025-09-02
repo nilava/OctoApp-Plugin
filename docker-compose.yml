@@ -1,0 +1,34 @@
+services:
+  octoapp-companion:
+    image: nilava/octoapp-companion:latest
+    # For local development, uncomment the following line and comment the image line above:
+    # build: .
+    container_name: octoapp-companion
+    restart: unless-stopped
+    
+    environment:
+      # Moonraker connection settings - REQUIRED
+      - MOONRAKER_URL=${MOONRAKER_URL:-http://192.168.1.100:7125}  # Replace with your Moonraker IP
+      - MOONRAKER_PORT=${MOONRAKER_PORT:-7125}
+    
+    volumes:
+      # Persistent data storage
+      - octoapp-data:/app/data
+      - octoapp-config:/app/config
+      - octoapp-logs:/app/logs
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "moonraker_octoapp"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  octoapp-data:
+    driver: local
+  octoapp-config:
+    driver: local
+  octoapp-logs:
+    driver: local
